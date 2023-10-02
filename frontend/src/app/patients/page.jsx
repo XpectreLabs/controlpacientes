@@ -25,6 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+
 export default function Patients() {
   const [isAddPatientModalOpen, setIsAddPatientModalOpen] = useState(false);
   const [isEditPatientModalOpen, setIsEditPatientModalOpen] = useState(false);
