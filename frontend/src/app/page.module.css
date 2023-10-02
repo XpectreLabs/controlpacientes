@@ -1,0 +1,40 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: normal;
+  align-items: center;
+  /* padding: 6rem; */
+  min-height: 100vh;
+  background-color: white;
+  /* gap: 3rem; */
+  padding-top: 70px;
+}
+
+.Center {
+  width: 500px;
+}
+
+.main button {
+  /* width: 100%; */
+  text-transform: none;
+}
+
+.main div {
+  /*width: 50%;*/
+  text-align: center;
+}
+
+.main p {
+  color: black;
+  margin-bottom: 0.5rem;
+}
+
+.main a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.Logo {
+  margin-bottom: 20px;
+}

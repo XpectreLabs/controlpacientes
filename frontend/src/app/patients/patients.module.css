@@ -1,0 +1,43 @@
+.main {
+  background-color: white;
+  min-height: 100vh;
+  padding: 4rem;
+}
+
+.Logo {
+  margin-bottom: 25px;
+}
+
+.Logo img {
+  width: 70px;
+}
+
+h1.title {
+  color: #083636;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.addPatientButton {
+  width: 185px;
+  font-size: 12px;
+  line-height: 20px;
+  margin-top: 1rem;
+}
+
+.addPatientButton span {
+  font-size: 19px;
+  line-height: 19px;
+  margin-right: 10px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.DeleteBorder {
+  box-shadow: none !important;
+}

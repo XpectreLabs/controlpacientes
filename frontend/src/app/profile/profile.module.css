@@ -1,0 +1,41 @@
+.main {
+  background-color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem;
+}
+
+.Logo {
+  margin-bottom: 25px;
+}
+
+.Logo img {
+  width: 70px;
+}
+
+h1.title {
+  color: #083636;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.main button {
+  width: 100px;
+  margin: 0px auto;
+}
+
+.DeleteBorder {
+  box-shadow: none !important;
+}
+
+.center {
+  max-width: 550px;
+  margin: 0px auto;
+}
+
+.btns {
+  text-align: center;
+  padding-top: 20px;
+}
