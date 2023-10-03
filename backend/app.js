@@ -90,7 +90,7 @@ router.post('/createPatient', async (req, res, next) => {
   res.json({ status: 'success' });
 });
 
-router.post('/editPatient', async (req, res, next) => {
+router.put('/editPatient', async (req, res, next) => {
   const id = parseInt(req.body.patient_id);
   await prisma.patients.update({
     where: {
@@ -107,9 +107,9 @@ router.post('/editPatient', async (req, res, next) => {
   res.json({ status: 'success' });
 });
 
-router.post('/listPatients', async (req, res, next) => {
-  if (req.body.user_id !== null) {
-    const id = req.body.user_id;
+router.get('/listPatients/:userId', async (req, res, next) => {
+  if (req.params.userId !== null) {
+    const id = req.params.userId;
 
     const listPatients = await prisma.patients.findMany({
       where: {
@@ -144,10 +144,9 @@ router.post('/deletePatient', async (req, res, next) => {
   res.json({ status: 'success' });
 });
 
-router.post('/dataUser', async (req, res, next) => {
-  if (req.body.user_id !== null) {
-    const id = req.body.user_id;
-
+router.get('/dataUser/:userId', async (req, res, next) => {
+  if (req.params.userId !== null) {
+    const id = req.params.userId;
     const dataUser = await prisma.users.findMany({
       where: {
         user_id: parseInt(id),
@@ -166,7 +165,7 @@ router.post('/dataUser', async (req, res, next) => {
   }
 });
 
-router.post('/editUser', async (req, res, next) => {
+router.put('/editUser', async (req, res, next) => {
   const id = parseInt(req.body.user_id);
   await prisma.users.update({
     where: {
@@ -201,7 +200,7 @@ router.post('/changePassword', async (req, res, next) => {
 // serverHttp.on('listening', () => console.info(`Notes App running at http://${process.env.IP}:${process.env.HTTP_PORT}`));
 router.listen(3001, () => {
   console.log('Aplicación ejecutandose ....');
-}); 
+});
 
 // Servidor HTTP
 // const httpsServer = https.createServer(options, router);
