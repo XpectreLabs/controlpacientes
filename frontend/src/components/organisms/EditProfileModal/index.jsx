@@ -1,11 +1,10 @@
-import React from 'react';
+import { editUser } from '@/api';
+import Modal from '@/components/atoms/Modal';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import styles from './EditProfile.module.css';
-import Modal from '@/components/atoms/Modal';
-import { editUser, getUserData } from '@/api';
 
 export default function EditProfileModal({
   isOpen,
@@ -40,6 +39,7 @@ export default function EditProfileModal({
           name="username"
           value={formik.values.username}
           onChange={formik.handleChange}
+          disabled={true}
         />
         <TextField
           placeholder="First "

@@ -1,9 +1,8 @@
-import React from 'react';
-import './globals.css';
+import { ContextProvider } from '@/context';
 import { Inter } from 'next/font/google';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { ContextProvider } from '@/context';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,7 +18,8 @@ export default function RootLayout({ children }) {
         <body className={inter.className}>
           {children}
           <div id="modal-root" />
-          <ToastContainer />
+          <ToastContainer autoClose={1000}
+hideProgressBar={true} />
         </body>
       </ContextProvider>
     </html>
