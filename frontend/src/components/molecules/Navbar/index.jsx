@@ -20,18 +20,22 @@ export default function Navbar({activeMain}) {
   return (
           <Paper sx={{ width: 320, maxWidth: '100%' }}>
             <MenuList  className={styles.ListNav}>
-              <MenuItem className={active===0?"activo":null}>
-                <ListItemIcon>
-                  <GroupsIcon fontSize="small" />
-                </ListItemIcon>
-                <Link href="/patients" onClick={()=>{setActive(0)}}>Patients</Link>
-              </MenuItem>
-              <MenuItem className={active===1?"activo":null}>
-                <ListItemIcon>
-                  <Person2Icon fontSize="small" />
-                </ListItemIcon>
-                <Link href="/profile" onClick={()=>{setActive(1)}}> Profile</Link>
-              </MenuItem>
+              <Link href="/patients" onClick={()=>{setActive(0)}}>
+                <MenuItem className={active===0?"activo":null}>
+                  <ListItemIcon>
+                    <GroupsIcon fontSize="small" />
+                  </ListItemIcon>
+                  Patients
+                </MenuItem>
+              </Link>
+              <Link href="/profile" onClick={()=>{setActive(1)}}>
+                <MenuItem className={active===1?"activo":null}>
+                  <ListItemIcon>
+                    <Person2Icon fontSize="small" />
+                  </ListItemIcon>
+                  Profile
+                </MenuItem>
+              </Link>
               <MenuItem>
                 <ListItemIcon>
                   <PowerSettingsNewIcon fontSize="small" />
