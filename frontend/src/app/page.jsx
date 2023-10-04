@@ -59,7 +59,6 @@ export default function Home() {
     setValue(newValue);
   };
 
-
   const { setUserSession } = useGetUserSessionContext();
   const router = useRouter();
   const formik = useFormik({
@@ -79,19 +78,10 @@ export default function Home() {
           setUserSession(a);
         });
     },
-  })
-
-
-  const router2 = useRouter();
+  });
   const formik2 = useFormik({
-    initialValues: {
-      firstName: '',
-      lastName: '',
-      password: '',
-      email: '',
-      user: '',
-    },
-    onSubmit: (values) => {
+    initialValues: {firstName: '',lastName: '',password: '',email: '',user: ''},
+    onSubmit: (values, actions) => {
       toast
         .promise(createUser(values), {
           pending: 'Loading',
@@ -99,7 +89,8 @@ export default function Home() {
           error: 'Error creating user 🤯',
         })
         .then(() => {
-          router2.push('/login');
+          actions.resetForm();
+          document.querySelector("#simple-tab-0").click()
         });
     },
   });
@@ -108,19 +99,25 @@ export default function Home() {
     <main className={styles.main}>
       <div>
         <figure className={styles.Logo}>
-          <img src="https://assets.website-files.com/640e73434d6821d825eadf94/640e8406f661a7392010e264_Vectors-Wrapper.svg"alt="" />
+          <img
+            src="https://assets.website-files.com/640e73434d6821d825eadf94/640e8406f661a7392010e264_Vectors-Wrapper.svg"
+            alt=""
+          />
         </figure>
       </div>
 
       <Box className={styles.Center} sx={{ width: '50%' }} align="left">
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-              <Tab label="Login" {...a11yProps(0)} />
-              <Tab label="Sign Up" {...a11yProps(1)} />
-            </Tabs>
-          </Box>
-          <CustomTabPanel value={value} index={0} sx={{ width: '100%' }}>
-
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab id="BtnLoginn" label="Login" {...a11yProps(0)} />
+            <Tab label="Sign Up" {...a11yProps(1)} />
+          </Tabs>
+        </Box>
+        <CustomTabPanel value={value} index={0} sx={{ width: '100%' }}>
           <main className={stylesL.main}>
             <form className={stylesL.form} onSubmit={formik.handleSubmit}>
               <TextField
@@ -144,74 +141,81 @@ export default function Home() {
                 onChange={formik.handleChange}
                 size="small"
               />
-              <Button className={stylesL.btnLogin} variant="outlined" type="submit">
+              <Button
+                className={stylesL.btnLogin}
+                variant="outlined"
+                type="submit"
+              >
                 Login
               </Button>
             </form>
           </main>
-
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={1}>
-            <main className={stylesS.main}>
-              <form className={stylesS.form} onSubmit={formik.handleSubmit}>
-                <TextField
-                  placeholder="Username"
-                  required
-                  id="outlined-required"
-                  label="Username"
-                  name="user"
-                  value={formik2.values.user}
-                  onChange={formik2.handleChange}
-                  size="small"
-                />
-                <TextField
-                  placeholder="First Name"
-                  required
-                  id="outlined-required"
-                  label="First Name"
-                  name="firstName"
-                  value={formik2.values.firstName}
-                  onChange={formik2.handleChange}
-                  size="small"
-                />
-                <TextField
-                  placeholder="Last Name"
-                  required
-                  id="outlined-required"
-                  label="Last Name"
-                  name="lastName"
-                  value={formik2.values.lastName}
-                  onChange={formik2.handleChange}
-                  size="small"
-                />
-                <TextField
-                  placeholder="Email"
-                  required
-                  id="outlined-required"
-                  label="Email"
-                  name="email"
-                  value={formik2.values.email}
-                  onChange={formik2.handleChange}
-                  size="small"
-                />
-                <TextField
-                  placeholder="Password"
-                  type="Password"
-                  required
-                  id="outlined-required"
-                  label="Password"
-                  name="password"
-                  value={formik2.values.password}
-                  onChange={formik2.handleChange}
-                  size="small"
-                />
-                <Button className={stylesS.btnSign} variant="outlined" type="submit">
-                  Sign Up
-                </Button>
-              </form>
-            </main>
-          </CustomTabPanel>
-        </Box>
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          <main className={stylesS.main}>
+            <form className={stylesS.form} onSubmit={formik2.handleSubmit}>
+              <TextField
+                placeholder="Username"
+                required
+                id="outlined-required"
+                label="Username"
+                name="user"
+                value={formik2.values.user}
+                onChange={formik2.handleChange}
+                size="small"
+              />
+              <TextField
+                placeholder="First Name"
+                required
+                id="outlined-required"
+                label="First Name"
+                name="firstName"
+                value={formik2.values.firstName}
+                onChange={formik2.handleChange}
+                size="small"
+              />
+              <TextField
+                placeholder="Last Name"
+                required
+                id="outlined-required"
+                label="Last Name"
+                name="lastName"
+                value={formik2.values.lastName}
+                onChange={formik2.handleChange}
+                size="small"
+              />
+              <TextField
+                placeholder="Email"
+                required
+                id="outlined-required"
+                label="Email"
+                name="email"
+                value={formik2.values.email}
+                onChange={formik2.handleChange}
+                size="small"
+              />
+              <TextField
+                placeholder="Password"
+                type="Password"
+                required
+                id="outlined-required"
+                label="Password"
+                name="password"
+                value={formik2.values.password}
+                onChange={formik2.handleChange}
+                size="small"
+              />
+              <Button
+                className={stylesS.btnSign}
+                variant="outlined"
+                type="submit"
+              >
+                Sign Up
+              </Button>
+            </form>
+          </main>
+        </CustomTabPanel>
+      </Box>
     </main>
   );
 }

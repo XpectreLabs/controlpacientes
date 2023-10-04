@@ -88,9 +88,7 @@ export default function AddNewPatientModal({ isOpen, onClose }) {
         />
 
         <div className={styles.btns}>
-            <Button className={styles.btn} variant="outlined" type="submit">
-              Save
-            </Button>
+            <Button className={styles.btn} variant="outlined" type="submit">Save</Button>
         </div>
       </form>
     </Modal>

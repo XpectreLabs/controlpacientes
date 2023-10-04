@@ -44,9 +44,7 @@ export const createPatient = async (patientData) => {
 };
 
 export const getPatientsList = async (userId) => {
-  const res = await fetch(`${URLPATH}/listPatients`, {
-    method: 'POST',
-    body: JSON.stringify({ user_id: userId }),
+  const res = await fetch(`${URLPATH}/listPatients/${userId}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -58,7 +56,7 @@ export const getPatientsList = async (userId) => {
 
 export const editPatient = async (patientData) => {
   const res = await fetch(`${URLPATH}/editPatient`, {
-    method: 'POST',
+    method: 'PUT',
     body: JSON.stringify(patientData),
     headers: {
       'Content-Type': 'application/json',
@@ -71,7 +69,7 @@ export const editPatient = async (patientData) => {
 
 export const deletePatient = async (patientId) => {
   const res = await fetch(`${URLPATH}/deletePatient`, {
-    method: 'POST',
+    method: 'DELETE',
     body: JSON.stringify({ patient_id: patientId }),
     headers: {
       'Content-Type': 'application/json',
@@ -83,9 +81,7 @@ export const deletePatient = async (patientId) => {
 };
 
 export const getUserData = async (userId) => {
-  const res = await fetch(`${URLPATH}/dataUser`, {
-    method: 'POST',
-    body: JSON.stringify({ user_id: userId }),
+  const res = await fetch(`${URLPATH}/dataUser/${userId}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -105,7 +101,7 @@ export const getUserData = async (userId) => {
 
 export const editUser = async (userData) => {
   const res = await fetch(`${URLPATH}/editUser`, {
-    method: 'POST',
+    method: 'PUT',
     body: JSON.stringify(userData),
     headers: {
       'Content-Type': 'application/json',

@@ -1,13 +1,9 @@
 const express = require('express');
 const router = express();
 const https = require('https');
-const passport = require('passport');
-const localStrategy = require('passport-local').Strategy;
 const jwt = require('jsonwebtoken');
-
 var LocalStorage = require('node-localstorage').LocalStorage;
 localStorage = new LocalStorage('./scratch');
-
 const JWTStrategy = require('passport-jwt').Strategy;
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
@@ -90,7 +86,7 @@ router.post('/createPatient', async (req, res, next) => {
   res.json({ status: 'success' });
 });
 
-router.post('/editPatient', async (req, res, next) => {
+router.put('/editPatient', async (req, res, next) => {
   const id = parseInt(req.body.patient_id);
   await prisma.patients.update({
     where: {
@@ -107,9 +103,9 @@ router.post('/editPatient', async (req, res, next) => {
   res.json({ status: 'success' });
 });
 
-router.post('/listPatients', async (req, res, next) => {
-  if (req.body.user_id !== null) {
-    const id = req.body.user_id;
+router.get('/listPatients/:userId', async (req, res, next) => {
+  if (req.params.userId !== null) {
+    const id = req.params.userId;
 
     const listPatients = await prisma.patients.findMany({
       where: {
@@ -130,9 +126,9 @@ router.post('/listPatients', async (req, res, next) => {
   }
 });
 
-router.post('/deletePatient', async (req, res, next) => {
+router.delete('/deletePatient', async (req, res, next) => {
   const id = parseInt(req.body.patient_id);
-
+  console.log("D:" + req.body.patient_id)
   await prisma.patients.update({
     where: {
       patient_id: parseInt(id),
@@ -144,10 +140,9 @@ router.post('/deletePatient', async (req, res, next) => {
   res.json({ status: 'success' });
 });
 
-router.post('/dataUser', async (req, res, next) => {
-  if (req.body.user_id !== null) {
-    const id = req.body.user_id;
-
+router.get('/dataUser/:userId', async (req, res, next) => {
+  if (req.params.userId !== null) {
+    const id = req.params.userId;
     const dataUser = await prisma.users.findMany({
       where: {
         user_id: parseInt(id),
@@ -166,7 +161,7 @@ router.post('/dataUser', async (req, res, next) => {
   }
 });
 
-router.post('/editUser', async (req, res, next) => {
+router.put('/editUser', async (req, res, next) => {
   const id = parseInt(req.body.user_id);
   await prisma.users.update({
     where: {
@@ -195,13 +190,30 @@ router.post('/changePassword', async (req, res, next) => {
   res.json({ status: 'success' });
 });
 
+
+function verifyToken(req, res, next) {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ message: 'Token not provider' });
+  }
+
+  jwt.verify(token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: 'Invalid Token' });
+    }
+    req.user = decoded;
+    next();
+  });
+}
+
 // Servidor HTTP
 // const serverHttp = http.createServer(router);
 // serverHttp.listen(process.env.HTTP_PORT, process.env.IP);
 // serverHttp.on('listening', () => console.info(`Notes App running at http://${process.env.IP}:${process.env.HTTP_PORT}`));
 router.listen(3001, () => {
   console.log('Aplicación ejecutandose ....');
-}); 
+});
 
 // Servidor HTTP
 // const httpsServer = https.createServer(options, router);
