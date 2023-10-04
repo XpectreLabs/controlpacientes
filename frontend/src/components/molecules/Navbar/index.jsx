@@ -26,7 +26,7 @@ export default function Navbar({activeMain}) {
                   Patients
                 </MenuItem>
               </Link>
-              <Link href="/profile" onClick={()=>{setActive(1)}}> 
+              <Link href="/profile" onClick={()=>{setActive(1)}}>
                 <MenuItem className={active===1?"activo":null}>
                   <ListItemIcon>
                     <Person2Icon fontSize="small" />
@@ -34,7 +34,7 @@ export default function Navbar({activeMain}) {
                   Profile
                 </MenuItem>
               </Link>
-              <div
+               <div
                   role="button"
                   onClick={() => {
                     router.push('/');

@@ -1,13 +1,9 @@
 const express = require('express');
 const router = express();
 const https = require('https');
-const passport = require('passport');
-const localStrategy = require('passport-local').Strategy;
 const jwt = require('jsonwebtoken');
-
 var LocalStorage = require('node-localstorage').LocalStorage;
 localStorage = new LocalStorage('./scratch');
-
 const JWTStrategy = require('passport-jwt').Strategy;
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
@@ -130,9 +126,9 @@ router.get('/listPatients/:userId', async (req, res, next) => {
   }
 });
 
-router.post('/deletePatient', async (req, res, next) => {
+router.delete('/deletePatient', async (req, res, next) => {
   const id = parseInt(req.body.patient_id);
-
+  console.log("D:" + req.body.patient_id)
   await prisma.patients.update({
     where: {
       patient_id: parseInt(id),
@@ -193,6 +189,23 @@ router.post('/changePassword', async (req, res, next) => {
   });
   res.json({ status: 'success' });
 });
+
+
+function verifyToken(req, res, next) {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ message: 'Token not provider' });
+  }
+
+  jwt.verify(token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: 'Invalid Token' });
+    }
+    req.user = decoded;
+    next();
+  });
+}
 
 // Servidor HTTP
 // const serverHttp = http.createServer(router);

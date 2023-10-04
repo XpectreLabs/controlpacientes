@@ -80,14 +80,8 @@ export default function Home() {
     },
   });
   const formik2 = useFormik({
-    initialValues: {
-      firstName: '',
-      lastName: '',
-      password: '',
-      email: '',
-      user: '',
-    },
-    onSubmit: (values) => {
+    initialValues: {firstName: '',lastName: '',password: '',email: '',user: ''},
+    onSubmit: (values, actions) => {
       toast
         .promise(createUser(values), {
           pending: 'Loading',
@@ -95,7 +89,8 @@ export default function Home() {
           error: 'Error creating user 🤯',
         })
         .then(() => {
-          router.push('/login');
+          actions.resetForm();
+          document.querySelector("#simple-tab-0").click()
         });
     },
   });
@@ -118,7 +113,7 @@ export default function Home() {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="Login" {...a11yProps(0)} />
+            <Tab id="BtnLoginn" label="Login" {...a11yProps(0)} />
             <Tab label="Sign Up" {...a11yProps(1)} />
           </Tabs>
         </Box>

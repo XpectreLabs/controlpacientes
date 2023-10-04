@@ -69,7 +69,7 @@ export const editPatient = async (patientData) => {
 
 export const deletePatient = async (patientId) => {
   const res = await fetch(`${URLPATH}/deletePatient`, {
-    method: 'POST',
+    method: 'DELETE',
     body: JSON.stringify({ patient_id: patientId }),
     headers: {
       'Content-Type': 'application/json',
