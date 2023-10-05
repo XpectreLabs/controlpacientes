@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { getPatientsList } from '@/api';
+import { useEffect, useState } from 'react';
 
 export default function useGetPatientList(userId) {
   const [patients, setPatients] = useState([]);
@@ -8,7 +8,7 @@ export default function useGetPatientList(userId) {
     getPatientsList(userId).then((patientsList) => {
       setPatients(patientsList);
     });
-  }, []);
+  }, [userId]);
 
   return { patients, setPatients };
 }

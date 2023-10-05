@@ -1,24 +1,21 @@
 'use client';
-import React from 'react';
-import { useState } from 'react';
-import { Button } from '@mui/material';
-import Link from 'next/link';
-import styles from './page.module.css';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import { useFormik } from 'formik';
-import { toast } from 'react-toastify';
-import { useRouter } from 'next/navigation';
-import stylesL from './login/login.module.css';
-import { login } from '@/api';
+import { createUser, login } from '@/api';
 import { useGetUserSessionContext } from '@/context';
+import { Button } from '@mui/material';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import { useFormik } from 'formik';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import stylesL from './login/login.module.css';
+import styles from './page.module.css';
 import stylesS from './signup/signup.module.css';
-import { createUser } from '@/api';
-
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -99,7 +96,7 @@ export default function Home() {
     <main className={styles.main}>
       <div>
         <figure className={styles.Logo}>
-          <img
+          <Image
             src="https://assets.website-files.com/640e73434d6821d825eadf94/640e8406f661a7392010e264_Vectors-Wrapper.svg"
             alt=""
           />

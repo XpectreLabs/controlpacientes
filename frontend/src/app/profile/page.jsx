@@ -13,6 +13,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
+import Image from 'next/image';
 import { useState } from 'react';
 import styles from './profile.module.css';
 
@@ -37,7 +38,7 @@ export default function Profile() {
         <Grid item xs={2}>
           <Item className={styles.DeleteBorder}>
             <figure className={styles.Logo}>
-              <img src="https://assets.website-files.com/640e73434d6821d825eadf94/640e8406f661a7392010e264_Vectors-Wrapper.svg"alt="" />
+              <Image src="https://assets.website-files.com/640e73434d6821d825eadf94/640e8406f661a7392010e264_Vectors-Wrapper.svg"alt="" />
             </figure>
 
             <Navbar activeMain="1" />
