@@ -5,8 +5,9 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const jwtV = require('../services/auth.js');
 
-router.post('/',verifyToken, async (req, res, next) => {
+router.post('/',jwtV.verifyToken, async (req, res, next) => {
   let date = new Date().toISOString();
   console.log(date);
   await prisma.patients.create({
@@ -24,7 +25,7 @@ router.post('/',verifyToken, async (req, res, next) => {
   res.json({ status: 'success' });
 });
 
-router.get('/:userId/patients',verifyToken, async (req, res, next) => {
+router.get('/:userId/patients',jwtV.verifyToken, async (req, res, next) => {
   if (req.params.userId !== null) {
     const id = req.params.userId;
 
@@ -47,7 +48,7 @@ router.get('/:userId/patients',verifyToken, async (req, res, next) => {
   }
 });
 
-router.put('/',verifyToken, async (req, res, next) => {
+router.put('/',jwtV.verifyToken, async (req, res, next) => {
   const id = parseInt(req.body.patient_id);
   console.log("U:" + id);
   await prisma.patients.update({
@@ -65,7 +66,7 @@ router.put('/',verifyToken, async (req, res, next) => {
   res.json({ status: 'success' });
 });
 
-router.delete('/',verifyToken, async (req, res, next) => {
+router.delete('/',jwtV.verifyToken, async (req, res, next) => {
   const id = parseInt(req.body.patient_id);
   console.log("D:" + req.body.patient_id);
   await prisma.patients.update({
@@ -80,7 +81,7 @@ router.delete('/',verifyToken, async (req, res, next) => {
 });
 
 
-function verifyToken(req, res, next) {
+/*function verifyToken(req, res, next) {
   const token = req.headers.authorization;
 
   if (!token) {
@@ -94,6 +95,6 @@ function verifyToken(req, res, next) {
     req.user = decoded;
     next();
   });
-}
+}*/
 
 module.exports = router;

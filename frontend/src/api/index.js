@@ -23,7 +23,6 @@ export const login = async (userData) => {
     },
   });
   const data = await res.json();
-  console.log(data);
 
   if (data.auth === 'Incorrect access data') {
     throw Error('data.userSession.auth');
@@ -122,6 +121,6 @@ export const editUser = async (userData,token) => {
     },
   });
   const data = await res.json();
-
+  console.log(data);
   return data.listPatients;
 };

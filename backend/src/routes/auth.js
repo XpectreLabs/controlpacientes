@@ -4,10 +4,24 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const fn = require('../services/users.js');
+const joi = require('joi');
+
+const schema = joi.object({
+  username: joi.string().alphanum().min(3).required(),
+  password: joi.string().min(3).required(),
+});
 
 router.post('/login', async (req, res, next) => {
+  const { error } = schema.validate(req.body);
+  if (error) {
+    console.log(error.details[0].message);
+    return res.status(400).json({ error: error.details[0].message });
+  }
+
   try {
-    let user = await findUser(req.body.username, req.body.password);
+    let user = await fn.findUser(req.body.username, req.body.password);
+
     if (user > 0) {
       const token = generateAccessToken(jwt, user);
       res.json({ user_id: user, token: token });
@@ -39,38 +53,5 @@ router.post('/changePassword', async (req, res, next) => {
   });
   res.json({ status: 'success' });
 });
-
-async function findUser(username, password) { 
-  console.log(username, password)
-  const users = await prisma.users.findFirst({
-    where: {
-      username,
-      password,
-    },
-    select: {
-      user_id: true,
-    },
-  });
-
-  if (users == null) return 0;
-
-  return users.user_id;
-}
-
-function verifyToken(req, res, next) {
-  const token = req.headers.authorization;
-
-  if (!token) {
-    return res.status(401).json({ message: 'Token not provider' });
-  }
-
-  jwt.verify(token, process.env.SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: 'Invalid Token' });
-    }
-    req.user = decoded;
-    next();
-  });
-}
 
 module.exports = router;

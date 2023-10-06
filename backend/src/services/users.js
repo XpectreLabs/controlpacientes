@@ -1,6 +1,7 @@
-async function findUser(username, password) { 
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
 
-  console.log(username, password)
+async function findUser(username, password) {
   const users = await prisma.users.findFirst({
     where: {
       username,
@@ -16,5 +17,4 @@ async function findUser(username, password) {
   return users.user_id;
 }
 
-
-module.exports = findUser;
+module.exports = { findUser }

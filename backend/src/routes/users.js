@@ -5,8 +5,8 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
+const jwtV = require('../services/auth.js');
 const joi = require('joi');
-
 
 const schemaCreate = joi.object({
   user: joi.string().alphanum().min(3).required(),
@@ -23,11 +23,12 @@ const schemaId = joi.object({
 const schemaUpdate = joi.object({
   user_id: joi.number().min(1).required(),
   user: joi.string().alphanum().min(3).required(),
+  username: joi.string().alphanum().min(3).required(),
   firstName: joi.string().pattern(new RegExp('^[a-zA-Z0-9 ]{3,100}$')).required(),
   lastName: joi.string().pattern(new RegExp('^[a-zA-Z0-9 ]{3,100}$')).required(),
+  password: joi.string().min(3).required(),
   email: joi.string().email().required(),
 });
-
 
 router.post('/', async (req, res, next) => {
   const { error } = schemaCreate.validate(req.body);
@@ -68,7 +69,7 @@ router.post('/', async (req, res, next) => {
   }
 });*/
 
-router.get('/:userId',verifyToken, async (req, res, next) => {
+router.get('/:userId',jwtV.verifyToken, async (req, res, next) => {
   const { error } = schemaId.validate(req.params);
   if (error) {
     console.log(error.details[0].message)
@@ -96,12 +97,13 @@ router.get('/:userId',verifyToken, async (req, res, next) => {
   }
 });
 
-router.put('/',verifyToken, async (req, res, next) => {
-  /*const { error } = schemaUpdate.validate(req.body);
+router.put('/',jwtV.verifyToken, async (req, res, next) => {
+  console.log(req.body);
+  const { error } = schemaUpdate.validate(req.body);
   if (error) {
     console.log(error.details[0].message)
     return res.status(400).json({ error: error.details[0].message });
-  }*/
+  }
 
   const id = parseInt(req.body.user_id);
   await prisma.users.update({
@@ -117,21 +119,5 @@ router.put('/',verifyToken, async (req, res, next) => {
   });
   res.json({ status: 'success' });
 });
-
-function verifyToken(req, res, next) {
-  const token = req.headers.authorization;
-
-  if (!token) {
-    return res.status(401).json({ message: 'Token not provider' });
-  }
-
-  jwt.verify(token, process.env.SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: 'Invalid Token', e:err });
-    }
-    req.user = decoded;
-    next();
-  });
-}
 
 module.exports = router;
