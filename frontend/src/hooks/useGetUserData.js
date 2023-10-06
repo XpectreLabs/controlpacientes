@@ -12,7 +12,7 @@ export default function useGetUserData(userId) {
   });
 
   useEffect(() => {
-    getUserData(userId).then((data) => {
+    getUserData(localStorage.getItem('user_id'),localStorage.getItem('token')).then((data) => {
       setUserData(data);
     });
   }, [userId]);

@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import styles from './AddNewPatientModal.module.css';
-import { useFormik, resetForm } from 'formik';
+import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import Modal from '@/components/atoms/Modal';
@@ -19,17 +19,16 @@ export default function AddNewPatientModal({ isOpen, onClose }) {
       email: '',
       phone: '',
       ssn: '',
-      user_id: userSession.user_id,
+      user_id: localStorage.getItem('user_id'),
     },
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: (values) => {
       toast
-        .promise(createPatient(values), {
+        .promise(createPatient(values,localStorage.getItem('token')), {
           pending: 'Loading',
           success: `Patient: ${values.firstName} created👌`,
           error: 'Error creating patient 🤯',
         })
         .then(() => {
-          resetForm(); // Esto reiniciará los valores del formulario
           onClose();
         });
     },

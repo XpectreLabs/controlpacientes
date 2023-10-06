@@ -1,22 +1,21 @@
 'use client';
 
-import { deletePatient, getPatientsList } from '@/api';
-import Navbar from '@/components/molecules/Navbar';
-import AddNewPatientModal from '@/components/organisms/AddNewPatientModal';
-import EditPatientModal from '@/components/organisms/EditPatientModal';
-import { useGetUserSessionContext } from '@/context';
-import useGetPatientList from '@/hooks/useGetPatientList';
+import React, { useState } from 'react';
+import { DataGrid } from '@mui/x-data-grid';
+import Button from '@mui/material/Button';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
-import { DataGrid } from '@mui/x-data-grid';
-import Image from 'next/image';
-import { useState } from 'react';
 import { toast } from 'react-toastify';
 import styles from './patients.module.css';
+import AddNewPatientModal from '@/components/organisms/AddNewPatientModal';
+import EditPatientModal from '@/components/organisms/EditPatientModal';
+import useGetPatientList from '@/hooks/useGetPatientList';
+import { useGetUserSessionContext } from '@/context';
+import { deletePatient, getPatientsList } from '@/api';
+import Navbar from '@/components/molecules/Navbar';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import { styled } from '@mui/material/styles';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -32,18 +31,19 @@ export default function Patients() {
   const [isEditPatientModalOpen, setIsEditPatientModalOpen] = useState(false);
   const { userSession } = useGetUserSessionContext();
 
-  const { patients, setPatients } = useGetPatientList(userSession.user_id);
+  //alert(localStorage.getItem('user_id')+" -> "+localStorage.getItem('token')); //userSession.user_id
+  const { patients, setPatients } = useGetPatientList(localStorage.getItem('user_id'),localStorage.getItem('token'));
   const [patientToEdit, setPatientToEdit] = useState({});
 
   const onSetPatients = () => {
-    getPatientsList(userSession.user_id).then((patientsList) => {
+    getPatientsList(localStorage.getItem('user_id'),localStorage.getItem('token')).then((patientsList) => {
       setPatients(patientsList);
     });
   };
 
   const onDeletePatient = (patientId, name) => {
     toast
-      .promise(deletePatient(patientId), {
+      .promise(deletePatient(patientId,localStorage.getItem('token')), {
         pending: 'Loading',
         success: `user: ${name} deleted👌`,
         error: 'Error deleting user 🤯',
@@ -121,7 +121,7 @@ export default function Patients() {
         <Grid item xs={2}>
           <Item className={styles.DeleteBorder}>
             <figure className={styles.Logo}>
-              <Image src="https://assets.website-files.com/640e73434d6821d825eadf94/640e8406f661a7392010e264_Vectors-Wrapper.svg"alt="" />
+              <img src="https://assets.website-files.com/640e73434d6821d825eadf94/640e8406f661a7392010e264_Vectors-Wrapper.svg"alt="" />
             </figure>
 
             <Navbar activeMain="0" />

@@ -1,7 +1,7 @@
 const URLPATH = 'http://localhost:3001';
 
 export const createUser = async (userData) => {
-  const res = await fetch(`${URLPATH}/createUser`, {
+  const res = await fetch(`${URLPATH}/api/v1/users/`, {
     method: 'POST',
     body: JSON.stringify(userData),
     headers: {
@@ -9,12 +9,13 @@ export const createUser = async (userData) => {
     },
   });
   const data = await res.json();
+  console.log(data)
 
   return data;
 };
 
 export const login = async (userData) => {
-  const res = await fetch(`${URLPATH}/login`, {
+  const res = await fetch(`${URLPATH}/api/v1/auth/login`, {
     method: 'POST',
     body: JSON.stringify(userData),
     headers: {
@@ -22,6 +23,7 @@ export const login = async (userData) => {
     },
   });
   const data = await res.json();
+  console.log(data);
 
   if (data.auth === 'Incorrect access data') {
     throw Error('data.userSession.auth');
@@ -30,23 +32,27 @@ export const login = async (userData) => {
   return data;
 };
 
-export const createPatient = async (patientData) => {
-  const res = await fetch(`${URLPATH}/createPatient`, {
+export const createPatient = async (patientData,token) => {
+  const res = await fetch(`${URLPATH}/api/v1/patients`, {
     method: 'POST',
     body: JSON.stringify(patientData),
     headers: {
+      'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': token,
     },
   });
   const data = await res.json();
-
+  console.log(data);
   return data;
 };
 
-export const getPatientsList = async (userId) => {
-  const res = await fetch(`${URLPATH}/listPatients/${userId}`, {
+export const getPatientsList = async (userId,token) => {
+  const res = await fetch(`${URLPATH}/api/v1/patients/${userId}/patients`, {
     headers: {
+      'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': token,
     },
   });
   const data = await res.json();
@@ -54,12 +60,14 @@ export const getPatientsList = async (userId) => {
   return data.listPatients;
 };
 
-export const editPatient = async (patientData) => {
-  const res = await fetch(`${URLPATH}/editPatient`, {
+export const editPatient = async (patientData,token) => {
+  const res = await fetch(`${URLPATH}/api/v1/patients/`, {
     method: 'PUT',
     body: JSON.stringify(patientData),
     headers: {
+      'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': token,
     },
   });
   const data = await res.json();
@@ -67,12 +75,14 @@ export const editPatient = async (patientData) => {
   return data.listPatients;
 };
 
-export const deletePatient = async (patientId) => {
-  const res = await fetch(`${URLPATH}/deletePatient`, {
+export const deletePatient = async (patientId,token) => {
+  const res = await fetch(`${URLPATH}/api/v1/patients`, {
     method: 'DELETE',
     body: JSON.stringify({ patient_id: patientId }),
     headers: {
+      'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': token,
     },
   });
   const data = await res.json();
@@ -80,10 +90,12 @@ export const deletePatient = async (patientId) => {
   return data;
 };
 
-export const getUserData = async (userId) => {
-  const res = await fetch(`${URLPATH}/dataUser/${userId}`, {
+export const getUserData = async (userId,token) => {
+  const res = await fetch(`${URLPATH}/api/v1/users/${userId}`, {
     headers: {
+      'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': token,
     },
   });
   const data = await res.json();
@@ -99,12 +111,14 @@ export const getUserData = async (userId) => {
   };
 };
 
-export const editUser = async (userData) => {
-  const res = await fetch(`${URLPATH}/editUser`, {
+export const editUser = async (userData,token) => {
+  const res = await fetch(`${URLPATH}/api/v1/users/`, {
     method: 'PUT',
     body: JSON.stringify(userData),
     headers: {
+      'Accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': token,
     },
   });
   const data = await res.json();

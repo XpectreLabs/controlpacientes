@@ -18,7 +18,7 @@ router.use(express.static('public'));
 router.use(express.urlencoded({ extended: false }));
 router.use(express.json());
 router.use(cors());
-
+ 
 router.use('/api/v1/users', usersRoutes);
 router.use('/api/v1/patients', patientsRoutes);
 router.use('/api/v1/auth', authRoutes);

@@ -1,21 +1,20 @@
 'use client';
 
-import { getUserData } from '@/api';
-import Navbar from '@/components/molecules/Navbar';
-import EditProfileModal from '@/components/organisms/EditProfileModal';
-import { useGetUserSessionContext } from '@/context';
-import useGetUserData from '@/hooks/useGetUserData';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
+import React, { useState } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
-import Image from 'next/image';
-import { useState } from 'react';
+import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
 import styles from './profile.module.css';
+import EditProfileModal from '@/components/organisms/EditProfileModal';
+import useGetUserData from '@/hooks/useGetUserData';
+import { useGetUserSessionContext } from '@/context';
+import Navbar from '@/components/molecules/Navbar';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import { getUserData } from '@/api';
+import { styled } from '@mui/material/styles';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -28,7 +27,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Profile() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { userSession } = useGetUserSessionContext();
-  const { userData, setUserData } = useGetUserData(userSession.user_id);
+  const { userData, setUserData } = useGetUserData(localStorage.getItem('user_id'));
   const { firstName, lastName, email, username } = userData;
 
   return (
@@ -38,7 +37,7 @@ export default function Profile() {
         <Grid item xs={2}>
           <Item className={styles.DeleteBorder}>
             <figure className={styles.Logo}>
-              <Image src="https://assets.website-files.com/640e73434d6821d825eadf94/640e8406f661a7392010e264_Vectors-Wrapper.svg"alt="" />
+              <img src="https://assets.website-files.com/640e73434d6821d825eadf94/640e8406f661a7392010e264_Vectors-Wrapper.svg"alt="" />
             </figure>
 
             <Navbar activeMain="1" />
@@ -78,7 +77,7 @@ export default function Profile() {
                   setIsModalOpen(true);
                 }}
               >
-                Edit
+                Save
               </Button>
             </div>
             
@@ -86,7 +85,7 @@ export default function Profile() {
               isOpen={isModalOpen}
               onClose={() => {
                 setIsModalOpen(false);
-                getUserData(userData.user_id).then((data) => {
+                getUserData(localStorage.getItem('user_id'),localStorage.getItem('token')).then((data) => {
                   setUserData(data);
                 });
               }}

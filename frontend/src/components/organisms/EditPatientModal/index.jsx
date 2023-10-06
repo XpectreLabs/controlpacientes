@@ -13,7 +13,7 @@ export default function EditPatientModal({ isOpen, onClose, patientData }) {
     initialValues: patientData,
     onSubmit: (values) => {
       toast
-        .promise(editPatient(values), {
+        .promise(editPatient(values,localStorage.getItem('token')), {
           pending: 'Loading',
           success: `Patient: ${values.firstName} edited👌`,
           error: 'Error editing patient 🤯',
@@ -30,6 +30,7 @@ export default function EditPatientModal({ isOpen, onClose, patientData }) {
           placeholder="SSN"
           required
           id="outlined-required"
+          label="SSN"
           name="ssn"
           value={formik.values.ssn}
           onChange={formik.handleChange}
@@ -39,6 +40,7 @@ export default function EditPatientModal({ isOpen, onClose, patientData }) {
           placeholder="First Name"
           required
           id="outlined-required"
+          label="First Name"
           name="firstName"
           value={formik.values.firstName}
           onChange={formik.handleChange}
@@ -48,6 +50,7 @@ export default function EditPatientModal({ isOpen, onClose, patientData }) {
           placeholder="Last Name"
           required
           id="outlined-required"
+          label="Last Name"
           name="lastName"
           value={formik.values.lastName}
           onChange={formik.handleChange}
@@ -57,6 +60,7 @@ export default function EditPatientModal({ isOpen, onClose, patientData }) {
           placeholder="Phone"
           required
           id="outlined-required"
+          label="Phone"
           name="phone"
           value={formik.values.phone}
           onChange={formik.handleChange}
@@ -66,6 +70,7 @@ export default function EditPatientModal({ isOpen, onClose, patientData }) {
           placeholder="Email"
           required
           id="outlined-required"
+          label="Email"
           name="email"
           value={formik.values.email}
           onChange={formik.handleChange}

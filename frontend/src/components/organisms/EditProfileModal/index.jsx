@@ -1,10 +1,11 @@
-import { editUser } from '@/api';
-import Modal from '@/components/atoms/Modal';
+import React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import styles from './EditProfile.module.css';
+import Modal from '@/components/atoms/Modal';
+import { editUser, getUserData } from '@/api';
 
 export default function EditProfileModal({
   isOpen,
@@ -18,7 +19,7 @@ export default function EditProfileModal({
     },
     onSubmit: (values) => {
       toast
-        .promise(editUser({ ...values, user: values.username }), {
+        .promise(editUser({ ...values, user: values.username },localStorage.getItem('token')), {
           pending: 'Loading',
           success: `user: ${values.username} edited👌`,
           error: `Error editing user: ${values.username} 🤯`,
@@ -39,7 +40,6 @@ export default function EditProfileModal({
           name="username"
           value={formik.values.username}
           onChange={formik.handleChange}
-          disabled={true}
         />
         <TextField
           placeholder="First "

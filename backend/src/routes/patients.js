@@ -3,9 +3,12 @@ const express = require("express");
 const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
-router.post('/', async (req, res, next) => {
+router.post('/',verifyToken, async (req, res, next) => {
   let date = new Date().toISOString();
+  console.log(date);
   await prisma.patients.create({
     data: {
       firstname: req.body.firstName,
@@ -21,7 +24,7 @@ router.post('/', async (req, res, next) => {
   res.json({ status: 'success' });
 });
 
-router.get('/:userId/patients', async (req, res, next) => {
+router.get('/:userId/patients',verifyToken, async (req, res, next) => {
   if (req.params.userId !== null) {
     const id = req.params.userId;
 
@@ -44,8 +47,9 @@ router.get('/:userId/patients', async (req, res, next) => {
   }
 });
 
-router.put('/', async (req, res, next) => {
+router.put('/',verifyToken, async (req, res, next) => {
   const id = parseInt(req.body.patient_id);
+  console.log("U:" + id);
   await prisma.patients.update({
     where: {
       patient_id: parseInt(id),
@@ -61,9 +65,9 @@ router.put('/', async (req, res, next) => {
   res.json({ status: 'success' });
 });
 
-router.delete('/:patientId', async (req, res, next) => {
+router.delete('/',verifyToken, async (req, res, next) => {
   const id = parseInt(req.body.patient_id);
-  console.log("D:" + req.body.patient_id)
+  console.log("D:" + req.body.patient_id);
   await prisma.patients.update({
     where: {
       patient_id: parseInt(id),
@@ -74,5 +78,22 @@ router.delete('/:patientId', async (req, res, next) => {
   });
   res.json({ status: 'success' });
 });
+
+
+function verifyToken(req, res, next) {
+  const token = req.headers.authorization;
+
+  if (!token) {
+    return res.status(401).json({ message: 'Token not provider' });
+  }
+
+  jwt.verify(token, process.env.SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: 'Invalid Token', e:err });
+    }
+    req.user = decoded;
+    next();
+  });
+}
 
 module.exports = router;

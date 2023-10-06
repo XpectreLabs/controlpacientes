@@ -110,12 +110,12 @@ a {
 
 .MuiButton-outlinedPrimary {
   color: #fff !important;
-  background: #083636;
+  background: #083636 !important;
 }
 
 .MuiButton-outlinedPrimary:hover {
   color: #fff !important;
-  background: #116060;
+  background: #116060 !important;
 }
 
 .MuiButtonBase-root {

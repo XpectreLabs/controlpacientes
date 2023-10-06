@@ -7,5 +7,4 @@ describe('<Home />', () => {
     const buttonElement = screen.getByText(/Login/i);
     expect(buttonElement).toBeInTheDocument();
   })
-
 });

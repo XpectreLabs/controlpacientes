@@ -1,15 +1,17 @@
+import React, { useState } from 'react';
+import Link from 'next/link';
+import styles from './Navbar.module.css';
+import { useRouter } from 'next/navigation';
 import { useGetUserSessionContext } from '@/context';
 import GroupsIcon from '@mui/icons-material/Groups';
+import Paper from '@mui/material/Paper';
+import MenuList from '@mui/material/MenuList';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import Person2Icon from '@mui/icons-material/Person2';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
-import Paper from '@mui/material/Paper';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import styles from './Navbar.module.css';
+import ContentPaste from '@mui/icons-material/ContentPaste';
 
 export default function Navbar({activeMain}) {
   const router = useRouter();
@@ -34,6 +36,10 @@ export default function Navbar({activeMain}) {
                   Profile
                 </MenuItem>
               </Link>
+              <MenuItem>
+                <ListItemIcon>
+                  <PowerSettingsNewIcon fontSize="small" />
+                </ListItemIcon>
                <div
                   role="button"
                   onClick={() => {
@@ -43,13 +49,9 @@ export default function Navbar({activeMain}) {
                     }, 1000);
                   }}
                 >
-                <MenuItem>
-                  <ListItemIcon>
-                    <PowerSettingsNewIcon fontSize="small" />
-                  </ListItemIcon>
-                    Log out
-                </MenuItem>
-              </div>
+                  Log out
+                </div>
+              </MenuItem>
             </MenuList>
           </Paper>
 

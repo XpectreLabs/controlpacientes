@@ -1,4 +1,6 @@
 async function findUser(username, password) { 
+
+  console.log(username, password)
   const users = await prisma.users.findFirst({
     where: {
       username,
@@ -13,3 +15,6 @@ async function findUser(username, password) {
 
   return users.user_id;
 }
+
+
+module.exports = findUser;
