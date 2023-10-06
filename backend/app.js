@@ -19,10 +19,7 @@ router.use('/api/v1/users', usersRoutes);
 router.use('/api/v1/patients', patientsRoutes);
 router.use('/api/v1/auth', authRoutes);
 
-// Servidor HTTP
-// const serverHttp = http.createServer(router);
-// serverHttp.listen(process.env.HTTP_PORT, process.env.IP);
-// serverHttp.on('listening', () => console.info(`Notes App running at http://${process.env.IP}:${process.env.HTTP_PORT}`));
+
 router.listen(3001, () => {
   console.log('Aplicación ejecutandose ....');
 });

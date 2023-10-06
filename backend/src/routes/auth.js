@@ -5,15 +5,10 @@ const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const fn = require('../services/users.js');
-const joi = require('joi');
-
-const schema = joi.object({
-  username: joi.string().alphanum().min(3).required(),
-  password: joi.string().min(3).required(),
-});
+const sch = require('../schemas/auth.js');
 
 router.post('/login', async (req, res, next) => {
-  const { error } = schema.validate(req.body);
+  const { error } = sch.schema.validate(req.body);
   if (error) {
     console.log(error.details[0].message);
     return res.status(400).json({ error: error.details[0].message });

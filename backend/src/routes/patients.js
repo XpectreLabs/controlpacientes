@@ -6,8 +6,15 @@ const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const jwtV = require('../services/auth.js');
+const sch = require('../schemas/patients.js');
 
 router.post('/',jwtV.verifyToken, async (req, res, next) => {
+  const { error } = sch.schemaCreate.validate(req.body);
+  if (error) {
+    console.log(error.details[0].message);
+    return res.status(400).json({ error: error.details[0].message });
+  }
+
   let date = new Date().toISOString();
   console.log(date);
   await prisma.patients.create({
@@ -26,6 +33,12 @@ router.post('/',jwtV.verifyToken, async (req, res, next) => {
 });
 
 router.get('/:userId/patients',jwtV.verifyToken, async (req, res, next) => {
+  const { error } = sch.schemaId.validate(req.params);
+  if (error) {
+    console.log(error.details[0].message);
+    return res.status(400).json({ error: error.details[0].message });
+  }
+
   if (req.params.userId !== null) {
     const id = req.params.userId;
 
@@ -49,8 +62,14 @@ router.get('/:userId/patients',jwtV.verifyToken, async (req, res, next) => {
 });
 
 router.put('/',jwtV.verifyToken, async (req, res, next) => {
+  const { error } = sch.schemaUpdate.validate(req.body);
+  if (error) {
+    console.log(error.details[0].message);
+    return res.status(400).json({ error: error.details[0].message });
+  }
+
   const id = parseInt(req.body.patient_id);
-  console.log("U:" + id);
+
   await prisma.patients.update({
     where: {
       patient_id: parseInt(id),
@@ -67,6 +86,12 @@ router.put('/',jwtV.verifyToken, async (req, res, next) => {
 });
 
 router.delete('/',jwtV.verifyToken, async (req, res, next) => {
+  const { error } = sch.schemaIdPatient.validate(req.body);
+  if (error) {
+    console.log(error.details[0].message);
+    return res.status(400).json({ error: error.details[0].message });
+  }
+
   const id = parseInt(req.body.patient_id);
   console.log("D:" + req.body.patient_id);
   await prisma.patients.update({
@@ -79,22 +104,5 @@ router.delete('/',jwtV.verifyToken, async (req, res, next) => {
   });
   res.json({ status: 'success' });
 });
-
-
-/*function verifyToken(req, res, next) {
-  const token = req.headers.authorization;
-
-  if (!token) {
-    return res.status(401).json({ message: 'Token not provider' });
-  }
-
-  jwt.verify(token, process.env.SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: 'Invalid Token', e:err });
-    }
-    req.user = decoded;
-    next();
-  });
-}*/
 
 module.exports = router;
