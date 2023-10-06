@@ -20,7 +20,7 @@ router.post('/', async (req, res, next) => {
 });
 
 
-router.get('/', async (req, res, next) => {
+/*router.get('/', async (req, res, next) => {
   if (req.params.userId !== null) {
     const id = req.params.userId;
     const dataUser = await prisma.users.findMany({
@@ -36,7 +36,7 @@ router.get('/', async (req, res, next) => {
     });
     res.json(dataUser);
   }
-});
+});*/
 
 router.get('/:userId', async (req, res, next) => {
   if (req.params.userId !== null) {
@@ -75,31 +75,5 @@ router.put('/:userId', async (req, res, next) => {
   });
   res.json({ status: 'success' });
 });
-
-
-
-router.get('/:userId/patients', async (req, res, next) => {
-  if (req.params.userId !== null) {
-    const id = req.params.userId;
-
-    const listPatients = await prisma.patients.findMany({
-      where: {
-        user_id: parseInt(id),
-        active: 1,
-      },
-      select: {
-        patient_id: true,
-        firstname: true,
-        lastname: true,
-        phone: true,
-        email: true,
-        ssn: true,
-        date: true,
-      },
-    });
-    res.json({ listPatients });
-  }
-});
-
 
 module.exports = router;

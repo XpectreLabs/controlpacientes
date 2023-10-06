@@ -21,6 +21,29 @@ router.post('/', async (req, res, next) => {
   res.json({ status: 'success' });
 });
 
+router.get('/:userId/patients', async (req, res, next) => {
+  if (req.params.userId !== null) {
+    const id = req.params.userId;
+
+    const listPatients = await prisma.patients.findMany({
+      where: {
+        user_id: parseInt(id),
+        active: 1,
+      },
+      select: {
+        patient_id: true,
+        firstname: true,
+        lastname: true,
+        phone: true,
+        email: true,
+        ssn: true,
+        date: true,
+      },
+    });
+    res.json({ listPatients });
+  }
+});
+
 router.put('/', async (req, res, next) => {
   const id = parseInt(req.body.patient_id);
   await prisma.patients.update({
